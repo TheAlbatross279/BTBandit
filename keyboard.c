@@ -21,14 +21,7 @@
 #include "checksum.h"
 #include "smartalloc.h"
 
-
-
-struct ether_header{
-    unsigned char dest[ADDRESS_LENGTH];
-    unsigned char src[ADDRESS_LENGTH];
-    unsigned short type;
-} __attribute__((packed));
-
+#define ERRBUF_SIZE 1000
 
 /*
  * This function handles raw packets.
@@ -61,6 +54,9 @@ main(int argc, char *argv[])
 	     net = 0;
 	     mask = 0;
     }
+
+    packets = bt_create(dev, errbuf);
+    /*
     packets = pcap_open_live(dev, 1518, 1, 1000, errbuf);
     if(packets == NULL)
     {
@@ -77,7 +73,7 @@ main(int argc, char *argv[])
         fprintf(stderr, "Couldn't install filter %s: %s\n", filter_exp, pcap_geterr(packets));
 	     return EXIT_FAILURE;
     }
-    
+    */
     pcap_loop(packets, 100000, packet_handler, NULL);
 
     pcap_close(packets);    

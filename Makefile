@@ -23,8 +23,8 @@ endif
 
 all:  keyboard-$(EXEC_SUFFIX)
 
-trace-$(EXEC_SUFFIX): keyboard.c
-	$(CC) $(CFLAGS) $(OSINC) $(OSLIB) $(OSDEF) -o i_am_keyboard keyboard.c -lpcap checksum.c smartalloc.c
+keyboard-$(EXEC_SUFFIX): keyboard.c
+	$(CC) $(CFLAGS) $(OSINC) $(OSLIB) $(OSDEF) -o i_am_keyboard keyboard.c -lpcap checksum.c smartalloc.c pcap-bt-linux.c
 
 clean:
 	-rm -rf keyboard-* keyboard-*.dSYM i_am_keyboard

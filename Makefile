@@ -24,7 +24,7 @@ endif
 all:  keyboard-$(EXEC_SUFFIX)
 
 keyboard-$(EXEC_SUFFIX): keyboard.c
-	$(CC) $(CFLAGS) $(OSINC) $(OSLIB) $(OSDEF) -o i_am_keyboard keyboard.c -Ilibpcap.1.3.0 -lpcap checksum.c smartalloc.c 
+	$(CC) $(CFLAGS) $(OSINC) $(OSLIB) $(OSDEF) -o i_am_keyboard keyboard.c -lpcap checksum.c smartalloc.c 
 
 clean:
 	-rm -rf keyboard-* keyboard-*.dSYM i_am_keyboard

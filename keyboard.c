@@ -11,6 +11,8 @@
 #include <string.h>
 #include <ctype.h>
 #include <pcap.h>
+#include <pcap/pcap.h>
+#include <pcap/bluetooth.h>
 #include <sys/ioctl.h>
 #include<net/if.h>
 #include <netinet/ether.h>
@@ -29,7 +31,7 @@
 void packet_handler(u_char *args, const struct pcap_pkthdr *header,
 	    const u_char *packet);
 
-char *dev;
+char* dev;
 
 /**
  * @param argc Number of arguements.
@@ -41,13 +43,13 @@ main(int argc, char *argv[])
     pcap_t* packets;
     char errbuf[ERRBUF_SIZE];
     struct bpf_program fp;
-    char filter_exp[] = "arp or icmp";
+    char filter_exp[] = "bluetooth";
     bpf_u_int32 net,mask;
 
     dev = pcap_lookupdev(errbuf);
     if (dev == NULL) {
         fprintf(stderr, "Couldn't find default device: %s\n", errbuf);
-	     return EXIT_FAILURE;
+	return EXIT_FAILURE;
     }
     if (pcap_lookupnet(dev, &net, &mask, errbuf) == -1) {
 	     fprintf(stderr, "Couldn't get netmask for device %s: %s\n", dev, errbuf);
@@ -55,8 +57,6 @@ main(int argc, char *argv[])
 	     mask = 0;
     }
 
-    packets = bt_create(dev, errbuf);
-    /*
     packets = pcap_open_live(dev, 1518, 1, 1000, errbuf);
     if(packets == NULL)
     {
@@ -73,7 +73,6 @@ main(int argc, char *argv[])
         fprintf(stderr, "Couldn't install filter %s: %s\n", filter_exp, pcap_geterr(packets));
 	     return EXIT_FAILURE;
     }
-    */
     pcap_loop(packets, 100000, packet_handler, NULL);
 
     pcap_close(packets);    

@@ -43,8 +43,13 @@ main(int argc, char *argv[])
 {
     pcap_t* packets;
     char errbuf[ERRBUF_SIZE];
+<<<<<<< HEAD
     /*struct bpf_program fp;
     char filter_exp[] = "sco";
+=======
+    struct bpf_program fp;
+    char filter_exp[] = "arp";
+>>>>>>> e150b5b0d8df4ed58dc0afd86b3451a6046babfb
     bpf_u_int32 net,mask;
 
     dev = pcap_lookupdev(errbuf);
@@ -58,8 +63,13 @@ main(int argc, char *argv[])
 	     mask = 0;
     }*/
 
+<<<<<<< HEAD
     packets = usb_create("any", errbuf); //pcap_open_live("any", 1518, 1, 1000, errbuf);
     /*if(packets == NULL)
+=======
+    packets = pcap_open_live("Broadcom Corp.", 1518, 1, 1000, errbuf);
+    if(packets == NULL)
+>>>>>>> e150b5b0d8df4ed58dc0afd86b3451a6046babfb
     {
         fprintf(stderr, "PCAP OPEN_LIVE ERROR: %s\n", errbuf);
         return EXIT_FAILURE;

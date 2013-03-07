@@ -43,7 +43,7 @@ main(int argc, char *argv[])
     pcap_t* packets;
     char errbuf[ERRBUF_SIZE];
     struct bpf_program fp;
-    char filter_exp[] = "bluetooth";
+    char filter_exp[] = "arp";
     bpf_u_int32 net,mask;
 
     dev = pcap_lookupdev(errbuf);
@@ -57,7 +57,7 @@ main(int argc, char *argv[])
 	     mask = 0;
     }
 
-    packets = pcap_open_live(dev, 1518, 1, 1000, errbuf);
+    packets = pcap_open_live("Broadcom Corp.", 1518, 1, 1000, errbuf);
     if(packets == NULL)
     {
         fprintf(stderr, "PCAP OPEN_LIVE ERROR: %s\n", errbuf);

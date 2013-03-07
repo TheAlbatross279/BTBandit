@@ -8,9 +8,11 @@ def parse():
 
     for line in sys.stdin:
         if 'A1' in line:
-            byte = str.replace("^A1|01|00|\s", "", line)
-            print byte, keys[int(byte)]
-
+            byte = line.split(" ")
+            #print byte, keys[hex(byte)]
+            index = int(byte[10], 16)
+            if index < len(keys) and index != 0: 
+                print byte[10], keys[index]
 
 if __name__ == '__main__':
     parse()

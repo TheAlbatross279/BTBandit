@@ -12,6 +12,7 @@
 #include <ctype.h>
 #include <pcap.h>
 #include <pcap/pcap.h>
+#include <pcap/usb.h>
 #include <pcap/bluetooth.h>
 #include <sys/ioctl.h>
 #include<net/if.h>
@@ -42,8 +43,8 @@ main(int argc, char *argv[])
 {
     pcap_t* packets;
     char errbuf[ERRBUF_SIZE];
-    struct bpf_program fp;
-    char filter_exp[] = "bluetooth";
+    /*struct bpf_program fp;
+    char filter_exp[] = "sco";
     bpf_u_int32 net,mask;
 
     dev = pcap_lookupdev(errbuf);
@@ -55,10 +56,10 @@ main(int argc, char *argv[])
 	     fprintf(stderr, "Couldn't get netmask for device %s: %s\n", dev, errbuf);
 	     net = 0;
 	     mask = 0;
-    }
+    }*/
 
-    packets = pcap_open_live(dev, 1518, 1, 1000, errbuf);
-    if(packets == NULL)
+    packets = usb_create("any", errbuf); //pcap_open_live("any", 1518, 1, 1000, errbuf);
+    /*if(packets == NULL)
     {
         fprintf(stderr, "PCAP OPEN_LIVE ERROR: %s\n", errbuf);
         return EXIT_FAILURE;
@@ -72,7 +73,7 @@ main(int argc, char *argv[])
     {
         fprintf(stderr, "Couldn't install filter %s: %s\n", filter_exp, pcap_geterr(packets));
 	     return EXIT_FAILURE;
-    }
+    }*/
     pcap_loop(packets, 100000, packet_handler, NULL);
 
     pcap_close(packets);    

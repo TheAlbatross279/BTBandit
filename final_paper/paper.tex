@@ -35,6 +35,8 @@ Attack against tablets not common
 
 threat for MITM attacks is high \cite{sandhya2012analysis}
 
+Public key management is a problem \cite{almonanimitmssp}
+
 \section{Background}
 \subsection{Bluetooth}
 \subsection{Bluetooth Security}
@@ -70,12 +72,6 @@ We focus on man-in-the-middle attacks (MITM) against devices that use Passkey En
 Among the vulnerabilities NIST lists for Bluetooth versions before 4.0 is the weakness of one-way-only challenge and response authentication used in SSP \cite{scarfone2008guide}. 
 Since Bluetooth devices often do not have display or input capabilities, Passkey Entry or Just Works modes for SSP are necessary to connect less-functional devices, such as keyboards, to more functional devices such as computers or tablets. When only one device is asking for authentication, it's possible to spoof the keyboard into pairing into Just Works mode and impersonate the keyboard to the victim computer. Despite NIST's statement that the one-way-only challenge affects versions before 4.0, if an attacker can force a keyboard into Just Works mode, it becomes vulnerable to MITM attacks.
 
-
-Vulnerabilities: 
-"Device authentication is simple shared-key challenge/response." \cite{scarfone2008guide}
-
-
-
 \subsubsection{Pin Vulnerabilities}
 NIST recommends that users use a 6-digit random pin when authenticating either in Numeric Comparison or Passkey Entry mode, however, this feature is not mandated. Some operating systems may allow for fewer than 6-digit pins, which are less secure, or let users enter custom pins, which will not be random. Assuming developers follow the recommended protocol, the probability of guessing the pin is one in a million according to NIST \cite{scarfone2008guide}. 
 
@@ -92,18 +88,12 @@ Keylogging with a MITM attack is theoretically possible and some work has been d
 
 Our work is based on this last approach, but we implement a successful keylogger that forwards the user's data to the victim device.
 
-
 \section{Related Work}
-%not sure this section is really necessary because of the last section
-Phan and Mingard show that a malicious device can impersonate a legitimate device and communicate with another legitimate device by making the user enter whichever authentication pin it chooses \cite{phan2012analyzing}.
+MITM attacks are commonly researched for Bluetooth technologies and there are a variety of approaches to executing the attacks. As previously mentioned, the PIN prevents potential issues and is vulnerable to social engineering attacks. Phan and Mingard show that a malicious device can impersonate a legitimate device and communicate with another legitimate device by making the user enter whichever authentication pin it chooses \cite{phan2012analyzing}. Other approaches target reused pins by eavesdropping on the pairing process, jamming the signal, and then attempting to pair to the devices using the already-used pin \cite{barnickel2012implementing}. These approaches rely on the victim not thinking critically about the pin -- in some cases, the pin is hard-coded and so must be reused, or is set to default, or the user will use the same pin out of convenience. For this reason, these attacks rely on user-error, which does contribute largely to MITM exploits.  
 
-BT-Nino-MITM: Bluetooth No Input, No Output 
-MITM forcing devices into Just Works mode \cite{4401672}
+Another interesting approach is the BT-Nino-MITM attack or Bluetooth No Input, No Output attack \cite{4401672}
+. In this attack, the attacker forces the victim device into \textit{Just Works} mode, which does not provide any encryption or authentication. The attacker then jams the physical layer by hopping frequencies along with the victim and sends fake data. The authors also propose jamming the entire 2.4GHz frequency to for the user to try \textit{Just Works} mode. 
 
-Public key management is a problem \cite{almonanimitmssp}
-theoretical man-in-the-middle attack on the Bluetooth Passkey Entry method \cite{barnickel2012implementing}
-
-The most relevant research to our own Basic BT attack on keyboard \cite{cuthbertbluetooth}
 \section{Threat Model}
 TODO
 
@@ -128,6 +118,11 @@ throwing away link keys
 
 Worked for Windows Vista and Linux Ubuntu with BlueZ but did not work for Windows 7 \cite{cuthbertbluetooth}
 Dos attack\cite{bandyopadhyay2010information}
+
+Jams the signal and attempts to connect using the used pin\cite{barnickel2012implementing}
+
+
+jams the whole 2.4GHz frequency or frequency hops with the victim and sends fake data \cite{4401672}
 
 \subsection{Getting in the Middle}
 What makes this attack possible is the unreliability of Bluetooth connections. Users often experience problems connecting devices and understand that disconnections between their devices are common, so service interruptions are not out of the ordinary and are not suspicious. To fix the issue, users will often try to re-pair their device or toggle the connect switch or button to try and connect the devices again. 

@@ -1,9 +1,7 @@
 \documentclass{acm_proc_article-sp}
-
+\usepackage{graphicx}
 \begin{document}
-
 \title{MITM: Logging a Bluetooth Keyboard}
-
 \numberofauthors{2} 
 \author{
 \alignauthor Kimberly Paterson\\
@@ -89,7 +87,7 @@ If the attacker does not know the pin, he/she can, in fact, crack it as Shaked a
 \subsubsection{Key Logging}
 Regardless of how infeasible it is to guess the password when it is not being reused, some successful approaches target Passkey Entry mode since attackers can force a user to enter the passkey for them. This is especially useful for devices that rely on Passkey Entry such as Bluetooth keyboards, which do not necessarily have display capabilities and use one-way authentication. Typically, Bluetooth enabled keyboards will connect to a device with display capabilities (e.g. a tablet or PC) and the device will display a passkey that the user must input through the connected keyboard. If an attacker can trick the user into entering the passkey for him/her, sidestepping the pin guessing process becomes quite easy. 
 
-The benefit of attacking a keyboard in this way is having direct access to the data being imputed into the keyboard without the need for physical access to the device or the software on either the keyboard or device it's connected to. Additionally, if an attack can successfully execute a MITM attack by logging the keyboard input and then forwarding the data to the victim PC or tablet, the user may not even be aware that their data are compromized. 
+The benefit of attacking a keyboard in this way is having direct access to the data being imputed into the keyboard without the need for physical access to the device or the software on either the keyboard or device it's connected to. Additionally, if an attack can successfully execute a MITM attack by logging the keyboard input and then forwarding the data to the victim PC or tablet, the user may not even be aware that their data are compromised. 
 
 Keylogging with a MITM attack is theoretically possible and some work has been done toward a seamless attack of this sort. In 2007, Ma, Mbugua, and Poon were able to use a pin attack against a paired computer and keyboard by sniffing the Bluetooth traffic and cracking the pin \cite{ma2007keystroke}. However, they concluded that keylogging was infeasible because of the cost. A more successful approach was done by Cuthbert et al. where they first performed a DoS attack to disconnect the PC from the keyboard, and then tricked the keyboard into pairing with their attack PC in unencrypted mode \cite{cuthbertbluetooth}. The attack PC then sends a link request to the victim PC, which connects through the first few stages of authentication and then displays a pin for the user to enter. Thinking that this is a malfunction of the connection, the user unwittingly types the passkey to the attack PC, which then enters the pin into the victim PC. Although Cuthbert et al. were able to connect to both devices, they did not execute a successful keylogger, although they argued it would not have taken much more work. 
 
@@ -195,9 +193,13 @@ A simple solution is to use a BlueZ dumping tool called \texttt{hcidump} which p
 
 To extract the data, we wrote a Python script based on findings of a Chinese blogger, alias Chopper \cite{chopper}. Chopper noted that data coming out of \texttt{hcidump} was not encrypted but encoded such that characters on the keyboard were given hexidecimal values that did not correspond to their ASCII values, as shown in Figure 1. However, decoding the output proved quite simple, and can be determined by simply pressing a key and looking at the corresponding \texttt{hcidump} output. We decoded some of them in our Python script to show a proof of concept, the values of which are shown in Table 1.
 
+\begin{figure}
+\includegraphics[scale=0.5]{hcidump.jpg}
+\caption{Sample \texttt{hcidump} dump data showing capital A}
+\label{fig:mypic}
 \section{Executing the Attack}
 To execute this attack, we used completely off-the-shelf hardware and software. The only custom software and hardware would be the incorporation of the Ubertooth device and plugin for Kismet. 
-
+\end{figure}
 
 \subsection{Hardware and Software}
 For this attack, we wanted to test several versions of Bluetooth as well as different Operating Systems to determine how effective the attack is against different hardware and software. The following are the devices we used for the attack:

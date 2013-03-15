@@ -146,6 +146,16 @@ Theoretically, it's possible to capture the Bluetooth packets from the keyboard,
 We were able to find a work-around considering that our attacker PC is simply emulating a keyboard; therefore, we looked for HID clients that mimic keyboards and use Bluetooth. We found an Linux tool called hidclient \cite{hidclient} which can essentially forward from any input device on the attacker PC. 
 
 Hidclient allows the user to forward from any input device the user specifies and that the computer recognizes as a valid input. Since the victim's Bluetooth keyboard is connected to the attacker already, hidclient recognizes the keyboard as an input source. This means the attacker's keyboard is free for typing and will not appear on the victim's screen. The keystrokes are forwarded on to the victim with minimal delay. 
+
+\subsection{Keylogging}
+In order to get the data from the Bluetooth packets, we needed to dump the data in a way that it was retrievable either during the attack or after the fact. We considered several packet logger programs including Kismet \cite{kismet}, Wireshark \cite{wireshark}, and Mac OSX's Bluetooth Packet Logger. There were a few concerns with these tools: Kismet did not have support without the Ubertooth hardware, and so we did not choose to use this approach; Wireshark has bluetooth support, but the data is difficult to extract, except through log files; and the OSX Packet Logger was only available on OSX, which meant we were unable to use Linux BlueZ utilities. 
+
+A simple solution is to use a BlueZ dumping tool called \texttt{hcidump} which provided the option to dump the data in hexidecimal form. Since the data coming from the keyboard was unencrypted, this data could be easily extracted from the dump during or after the attack. 
+
+To extract the data, we wrote a Python script based on findings of a Chinese blogger, alias Chopper \cite{chopper}. Chopper noted that data coming out of \texttt{hcidump} was not encrypted but encoded such that characters on the keyboard were given hexidecimal values that did not correspond to their ASCII values, as shown in Figure 1. However, decoding the output proved quite simple, and can be determined by simply pressing a key and looking at the corresponding \texttt{hcidump} output. We decoded some of them in our Python script to show a proof of concept, the values of which are shown in Table 1.
+
+\section{Executing the Attack}
+To execute this attack, we used completely off-the-shelf hardware and software. The only custom software and hardware would be the incorporation of the Ubertooth device and plugin for Kismet. 
 \begin{table}
 \begin{tabular}{|c|c|}
 \hline
@@ -191,19 +201,6 @@ Z&0x1D\\
 \end{center}
 \label{table1}
 \end{table}
-
-\subsection{Keylogging}
-In order to get the data from the Bluetooth packets, we needed to dump the data in a way that it was retrievable either during the attack or after the fact. We considered several packet logger programs including Kismet \cite{kismet}, Wireshark \cite{wireshark}, and Mac OSX's Bluetooth Packet Logger. There were a few concerns with these tools: Kismet did not have support without the Ubertooth hardware, and so we did not choose to use this approach; Wireshark has bluetooth support, but the data is difficult to extract, except through log files; and the OSX Packet Logger was only available on OSX, which meant we were unable to use Linux BlueZ utilities. 
-
-A simple solution is to use a BlueZ dumping tool called \texttt{hcidump} which provided the option to dump the data in hexidecimal form. Since the data coming from the keyboard was unencrypted, this data could be easily extracted from the dump during or after the attack. 
-
-To extract the data, we wrote a Python script based on findings of a Chinese blogger, alias Chopper \cite{chopper}. Chopper noted that data coming out of \texttt{hcidump} was not encrypted but encoded such that characters on the keyboard were given hexidecimal values that did not correspond to their ASCII values, as shown in Figure 1. However, decoding the output proved quite simple, and can be determined by simply pressing a key and looking at the corresponding \texttt{hcidump} output. We decoded some of them in our Python script to show a proof of concept, the values of which are shown in Table 1.
-
-
-
-\section{Executing the Attack}
-To execute this attack, we used completely off-the-shelf hardware and software. The only custom software and hardware would be the incorporation of the Ubertooth device and plugin for Kismet. 
-
 \subsection{Hardware and Software}
 For this attack, we wanted to test several versions of Bluetooth as well as different Operating Systems to determine how effective the attack is against different hardware and software. The following are the devices we used for the attack:
 
@@ -222,7 +219,6 @@ A1 01 00 00 04 00 00 00 00 00
 \caption{Sample \texttt{hcidump} dump data showing capital A}
 \label{fig:mypic}
 \end{figure}
-
 
 \subsection{Setup}
 Need a Linux laptop

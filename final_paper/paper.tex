@@ -116,25 +116,23 @@ Based on prior research, the theoretical attack would take 4 main steps to execu
 Each step is outlined in detail in the following subsections.
 
 \subsection{Finding the Keyboard Bluetooth Address}
-The work relies on the assumption that we can find the Bluetooth address of the keyboard easily and quickly using a Bluetooth sniffer and packet capturing software such as Kismet\cite{kismet}. Although it is possible to manually program a Bluetooth card, it is possible to obtain hardware that sniffs and integrates with Kismet. Project Ubertooth provides both hardware and a plugin for Kismet that allows you to promiscuously sniff Bluetooth packets and displays the Bluetooth address from whatever device is sending out the packets. 
+Obtaining a device's Bluetooth address is quite simple. If the device is in discoverable mode, then the address is easily found using a Bluetooth scanner or command line tool such as \texttt{hcitool scan} from the Bluez Linux utilities. If the device is not in discoverable mode, but is connected to another Bluetooth-enabled device, then the address can be found using a Bluetooth sniffer and packet capturing software such as Kismet\cite{kismet}. Project Ubertooth \cite{ubertooth} provides both hardware and a plugin for Kismet that allows you to promiscuously sniff Bluetooth packets and then displays the Bluetooth address from whatever device is sending out the packets. Without pairing to the device, it is possible to sniff the packets from nearby devices, although the data is likely encrypted, and obtain the address \cite{hak5}. 
 
-Although we did not implement this approach, we believe that the keyboard's MAC address can be determined within seconds of sniffing, making this step very easy to execute. 
-\cite{hak5}
+In order to execute the attack, the attacker will need to know the Bluetooth address for both the keyboard and the victim PC. If the attacker does not have access to hardware like Ubertooth One, he or she can obtain the BT address after performing a DoS attack, at which point the user may make the devices discoverable in order to reconnect the devices and the attacker can scan for the devices. 
 
 \subsection{DoS Attack}
-Pairing with the computer
-throwing away link keys 
+The purpose of the Denial of Service attack (DoS) is to trick the user into initiating pairing. Although devices, once paired, do not technically need to be re-paired, a user who is frustrated with Bluetooth not connecting may try to pair the devices again to re-initiate the connection. Ultimately, this means the devices become discoverable to the attacker, who swiftly swoops in to pair with both devices. 
 
-Worked for Windows Vista and Linux Ubuntu with BlueZ but did not work for Windows 7 \cite{cuthbertbluetooth}
-Dos attack\cite{bandyopadhyay2010information}
+There are several known approaches to doing a DoS attack against Bluetooth and DoS attacks present a realistic problem for Bluetooth users \cite{bandyopadhyay2010information}; an attacker can force some operating systems to disconnect with a keyboard by spamming the victim PC with link requests \cite{cuthbertbluetooth}. This attack worked for Windows Vista and Linux Ubuntu with BlueZ but did not work for Windows 7; as a result, if the attacker does not know what OS the user has installed, this approach may not be effective. 
 
-Jams the signal and attempts to connect using the used pin\cite{barnickel2012implementing}
-
-
-jams the whole 2.4GHz frequency or frequency hops with the victim and sends fake data \cite{4401672}
+Another way to perform DoS is to jams the frequency the device is operating on in order to force the user into re-pairing. The attacker can jam the Bluetooth 2.4GHz frequency or frequency hops with the victim and sends fake data \cite{4401672}. Once the attacker jams the signal, he or she can attempt to connect using a reused pin\cite{barnickel2012implementing}, which is effective against poor random pin generation or user-generated pins that some operating systems implement. 
 
 \subsection{Getting in the Middle}
-What makes this attack possible is the unreliability of Bluetooth connections. Users often experience problems connecting devices and understand that disconnections between their devices are common, so service interruptions are not out of the ordinary and are not suspicious. To fix the issue, users will often try to re-pair their device or toggle the connect switch or button to try and connect the devices again. 
+What makes this attack possible is the unreliability of Bluetooth connections. Users often experience problems connecting devices and understand that disconnections between their devices are common, so service interruptions are not out of the ordinary and are not suspicious. To fix connections, as in the case of a DoS attack, users will often try to re-pair their device or toggle the connect switch or button to try and connect the devices again. Once the user makes his or her devices discoverable, the attacker can quickly pair with both devices. The process must be executed quickly so that the victim keyboard does not have time to connect to the victim PC. 
+
+The first step is to pair with the victim keyboard and connect in unencrypted mode, or security Mode 1. This means all data coming from the keyboard will not be encrypted and can be easily dumped and extracted later. If the attacker is successful in pairing with the keyboard and connecting in unencrypted mode, the keyboard is no longer discoverable, which means it will not show up as "available" on the victim PC's Bluetooth device manager. 
+
+The second step is to change the BlueZ configuration file to mimic the appearance of the user's keyboard. 
 
 connect to keyboard in unencrypted mode
 change Bluetooth address of Bluetooth card to look like keyboard 

@@ -94,8 +94,7 @@ Keylogging with a MITM attack is theoretically possible and some work has been d
 
 Our work is based on this last approach, but we implement a successful keylogger that forwards the user's data to the victim device.
 
-\section{Threat Model}
-TODO
+
 \section{Related Work}
 %not sure this section is really necessary because of the last section
 Phan and Mingard show that a malicious device can impersonate a legitimate device and communicate with another legitimate device by making the user enter whichever authentication pin it chooses \cite{phan2012analyzing}.
@@ -107,8 +106,10 @@ Public key management is a problem \cite{almonanimitmssp}
 theoretical man-in-the-middle attack on the Bluetooth Passkey Entry method \cite{barnickel2012implementing}
 
 The most relevant research to our own Basic BT attack on keyboard \cite{cuthbertbluetooth}
+\section{Threat Model}
+TODO
 
-\section{The Attack}
+\section{Attack Overview}
 There are 4 main steps to executing the attack:
 \begin{enumerate}
 \item Find Bluetooth Address of the keyboard
@@ -159,7 +160,7 @@ To execute pairing, the Macbook, the Thinkpad Laptop and Tablet all use Passkey 
 \subsection{Setup}
 Need a Linux laptop
 
-\subsection{Attack}
+\subsection{Implementation}
 Note about pairing before hand
 \begin{verbatim}
 sudo hidd --connect <keyboard-address>
@@ -181,14 +182,6 @@ Run the python script.
 \section{Mitigation}
 \section{Future Work}
 \section{Conclusions}
-
-\section{Acknowledgments}
-This section is optional; it is a location for you
-to acknowledge grants, funding, editing assistance and
-what have you.  In the present case, for example, the
-authors would like to thank Gerald Murray of ACM for
-his help in codifying this \textit{Author's Guide}
-and the \textbf{.cls} and \textbf{.tex} files that it describes.
 
 %
 % The following two commands are all you need in the

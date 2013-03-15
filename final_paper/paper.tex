@@ -22,12 +22,12 @@ Despite the security improvements made to Bluetooth since its debut in the late 
 \end{abstract}
 
 
-\category{H.4}{Information Systems Applications}{Miscellaneous}
+\category{H.4}{Bluetooth Attacks}{Miscellaneous}
 %A category including the fourth, optional field follows...
 \category{D.2.8}{Software Engineering}{Metrics}[complexity measures, performance measures]
 \terms{Theory}
 
-\keywords{MiTM, Bluetooth Attack} % NOT required for Proceedings
+\keywords{MiTM, Bluetooth Attack, Keylogging} % NOT required for Proceedings
 
 \section{Introduction}
 Many Bluetooth devices are marketed explicitly for mobile devices such as phones and tablets. 
@@ -58,10 +58,10 @@ Secure Simple Pairing (SSP) was introduced in revision 2.1 and has remained larg
 
 SSP has 4 association models:
 
-\textbf{Numeric Comparison}: a 6 digit number is displayed on both devices and a user confirms that the numbers match
-\textbf{Passkey Entry}: designed when one device has input (keyboard) and the other mostly display; the device that has the display shows a 6 digit number, which the user types in on the input device.
-\textbf{Just Works}: one device has no input or display; the user must accept the connection without being able to visualize that the numbers are the same (more in nist)
-\textbf{Out of Band (OOB)}: designed to connect when two devices are touched together, (e.g. Near Field Communication or NFC)
+\textbf{Numeric Comparison}: a 6 digit number is displayed on both devices and a user confirms that the numbers match\\
+\textbf{Passkey Entry}: designed when one device has input (keyboard) and the other mostly display; the device that has the display shows a 6 digit number, which the user types in on the input device.\\
+\textbf{Just Works}: one device has no input or display; the user must accept the connection without being able to visualize that the numbers are the same (more in nist)\\
+\textbf{Out of Band (OOB)}: designed to connect when two devices are touched together, (e.g. Near Field Communication or NFC)\\
 
 TODO 5 steps of pairing protocol
 
@@ -86,9 +86,9 @@ Additionally, NIST claims that since the 6-digit passkey is not incorporated int
 If the attacker does not know the pin, he/she can, in fact, crack it as Shaked and Wool showed in 2005 when they were able to crack a 4-digit pin in 0.27 seconds by observing Bluetooth traffic \cite{shaked2005cracking}. Similarly, in 2012, Barnickel, Wang, and Meyer were able to able to execute a MITM attack by first jamming the connection between the connected devices, calculate the passkey and then re-pairing with the devices \cite{barnickel2012implementing}. Both works and Lindell's work exploit the vulnerabilities of the Passkey Entry protocol, where the bit-by-bit evaluation of the passkey by devices can be used to leak the passkey a bit at a time, to determine the passkey quickly. As these works show, computing the pin is alarmingly simple and fairly useful when pins are reused; currently, this is still a feasible attack, but is less likely when pins are not fixed (such as with headsets or other fixed-pin devices).
 
 \subsubsection{Key Logging}
-Regardless of how infeasible it is to guess the password when it is not being reused, some successful approaches target Passkey Entry mode since attackers can force a user to enter the passkey for them. This is espeically useful for devices that rely on Passkey Entry such as Bluetooth keyboards, which do not necessarily have display capabilities and use one-way authentication. Typically, Bluetooth enabled keyboards will connect to a device with display capabilites (e.g. a tablet or PC) and the device will display a passkey that the user must input through the connected keyboard. If an attacker can trick the user into entering the passkey for him/her, sidestepping the pin guessing process becomes quite easy. 
+Regardless of how infeasible it is to guess the password when it is not being reused, some successful approaches target Passkey Entry mode since attackers can force a user to enter the passkey for them. This is especially useful for devices that rely on Passkey Entry such as Bluetooth keyboards, which do not necessarily have display capabilities and use one-way authentication. Typically, Bluetooth enabled keyboards will connect to a device with display capabilities (e.g. a tablet or PC) and the device will display a passkey that the user must input through the connected keyboard. If an attacker can trick the user into entering the passkey for him/her, sidestepping the pin guessing process becomes quite easy. 
 
-The benefit of attacking a keyboard in this way is having direct access to the data being inputed into the keyboard without the need for physical access to the device or the software on either the keyboard or device it's connected to. Additionally, if an attack can successfully execute a MITM attack by logging the keyboard input and then forwarding the data to the victim PC or tablet, the user may not even be aware that their data are compromized. 
+The benefit of attacking a keyboard in this way is having direct access to the data being imputed into the keyboard without the need for physical access to the device or the software on either the keyboard or device it's connected to. Additionally, if an attack can successfully execute a MITM attack by logging the keyboard input and then forwarding the data to the victim PC or tablet, the user may not even be aware that their data are compromized. 
 
 Keylogging with a MITM attack is theoretically possible and some work has been done toward a seamless attack of this sort. In 2007, Ma, Mbugua, and Poon were able to use a pin attack against a paired computer and keyboard by sniffing the Bluetooth traffic and cracking the pin \cite{ma2007keystroke}. However, they concluded that keylogging was infeasible because of the cost. A more successful approach was done by Cuthbert et al. where they first performed a DoS attack to disconnect the PC from the keyboard, and then tricked the keyboard into pairing with their attack PC in unencrypted mode \cite{cuthbertbluetooth}. The attack PC then sends a link request to the victim PC, which connects through the first few stages of authentication and then displays a pin for the user to enter. Thinking that this is a malfunction of the connection, the user unwittingly types the passkey to the attack PC, which then enters the pin into the victim PC. Although Cuthbert et al. were able to connect to both devices, they did not execute a successful keylogger, although they argued it would not have taken much more work. 
 

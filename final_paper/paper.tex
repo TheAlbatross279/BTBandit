@@ -230,6 +230,7 @@ Connect on the victim pc.
 Run the python script.
 
 \section{Results}
+We successfully created a proof of concept implementation that can forward keystrokes from a Bluetooth keyboard through the attacker to a victim machine. The proof of concept currently only works in the ideal conditions.
 
 \section{Mitigation}
 We are proposing three countermeasures to prevent against Man in the Middle attacks on Bluetooth keyboards.
@@ -252,6 +253,7 @@ There are several obvious ways to continue the work we completed.
 
 
 \section{Conclusions}
+Our work shows that a Bluetooth keylogger is possible to do. We successfully forwarded packets from the keyboard to the victim with no delay. Accomplishing this task was easier said than done. We had to use several software packages in the correct order to get the behaviors we wanted. The main conclusion we came away with is that Bluetooth is needlessly complex. The API is horrible and underdeveloped. Which was not explained by any documentation we found. The documentation was useless and led us in the wrong direction 99\% of the time. If anyone could improve Bluetooth in any way we recommend making the API cleaner and standardized and improving the documentation that goes with it.
 
 %
 % The following two commands are all you need in the

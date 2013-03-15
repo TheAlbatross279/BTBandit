@@ -34,6 +34,16 @@
   organization={ACM}
 }
 
+@book{bandyopadhyay2010information,
+  title={Information Security and Assurance: 4th International Conference, ISA 2010, Miyazaki, Japan, June 23-25, 2010, Proceedings},
+  author={Bandyopadhyay, S.K. and Adi, W. and Kim, T. and Xiao, Y.},
+  isbn={9783642133640},
+  series={Communications in Computer and Information Science},
+  url={http://books.google.com/books?id=PdSBXIZ98bgC},
+  year={2010},
+  publisher={Springer}
+}
+
 @article{almonanimitmssp, 
   title={Secure Public Key Exchange against Man-in-the-Middle Attacks During Secure Simple Pairing (SSP) in Bluetooth},
   author={Almomani, Iman, Al-Saruri, Mohammed, AL-Akhras, Mousa},

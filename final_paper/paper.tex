@@ -35,19 +35,26 @@ Attack against tablets not common
 
 threat for MITM attacks is high \cite{sandhya2012analysis}
 
+Many Bluetooth devices are marketed explicitly for mobile devices such as phones and tablets. 
+Attack against tablets not common
+
 \section{Background}
+This section discusses the background of Bluetooth and several security features Bluetooth uses.
+
 \subsection{Bluetooth}
+Bluetooth is a short-range communications technology used in a wide variety of devices \cite{bluetooth}. The devices Bluetooth are implemented on varies widely from keyboards to fully functional computers \cite{bluetooth}. When two Bluetooth enabled devices are close by each other they can perform what is known as a pairing to connect themselves \cite{bluetooth}. Once the devices are connected they form a piconet and can communicate wirelessly \cite{bluetooth}. Any single Bluetooth device can connect with seven piconets at one time and inside any given piconet there can be up to seven Bluetooth devices connected \cite{bluetooth}. 
+
 \subsection{Bluetooth Security}
-Frequency hopping: allows for fewer collisions between devices and makes sniffing traffic more difficult, but not impossible since it is known (--find out more about this)
+Bluetooth implements a variety of security measures to protect itself. Unfortunatly, sometimes Bluetooth ends up defeating its own security measures. The following list are the major security features implemented currently.
 
-Discoverable modes: limits the vulnerability by limiting the amount of time a device is discoverable by other devices
+\textbf{Frequency hopping}: allows for fewer collisions between devices and makes sniffing traffic more difficult, but not impossible since it is known (--find out more about this)
 
-Bluetooth address (Not sure about this but \cite{ma2007keystroke} has something to say about it)
+\textbf{Discoverable modes}: limits the vulnerability by limiting the amount of time a device is discoverable by other devices
 
-PIN authentication
+\textbf{PIN authentication}:
 no pin mode
 
-Security Modes: 
+\textbf{Security Modes}: 
 \begin{enumerate}
 \item Mode 1 no security or encryption
 \item Mode 2 no security until channel is established on L2CAP level (software)

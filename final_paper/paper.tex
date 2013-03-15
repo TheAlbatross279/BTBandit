@@ -102,7 +102,12 @@ Another interesting approach is the BT-Nino-MITM attack or Bluetooth No Input, N
 . In this attack, the attacker forces the victim device into \textit{Just Works} mode, which does not provide any encryption or authentication. The attacker then jams the physical layer by hopping frequencies along with the victim and sends fake data. The authors also propose jamming the entire 2.4GHz frequency to for the user to try \textit{Just Works} mode. 
 
 \section{Threat Model}
-TODO
+In our threat model we are assuming the attack will be carried out in a public place where the attacker
+can get within 30-100 feet of the victim. A couple examples include places like an airport, an office building, or a coffee shop. In any of these places it would be extremely easy for an attacker to get nearby the victim without appearing suspicious.
+
+The victim of the attack is someone who is using a Bluetooth keyboard to type on any device. The devices could include a tablet, laptop, or PC. The victim would eventually in the course of their activities type some sensitive information. This could include payment information, passwords, or some other financial information. 
+
+The person performing the attack will most likely be using a laptop. They may or may not have specialty sniffing hardware. Their main goal will be attempting to log passwords or financial information like credit card numbers. To perform their attack they would most likely sit inconspicuously nearby the victim or hide out in a van outside the public place the attack is being carried out at.
 
 \section{Attack Overview}
 Based on prior research, the theoretical attack would take 4 main steps to executing the attack, which are as follow:

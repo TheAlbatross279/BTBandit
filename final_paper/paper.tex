@@ -65,7 +65,6 @@ Secure Simple Pairing (SSP) was introduced in revision 2.1 and has remained larg
 \textbf{Just Works}: one device has no input or display; the user must accept the connection without being able to visualize that the numbers are the same (more in nist)\\\\
 \textbf{Out of Band (OOB)}: designed to connect when two devices are touched together, (e.g. Near Field Communication or NFC)\\\\
 %TODO 5 steps of pairing protocol
-
 \subsection{MITM Bluetooth Attacks}
 We focus on man-in-the-middle attacks (MITM) against devices that use Passkey Entry as their primary mode of authentication for pairing. Historically, these attacks have been simple to implement and successful using a variety of approaches.  
 
@@ -98,16 +97,18 @@ Another interesting approach is the BT-Nino-MITM attack or Bluetooth No Input, N
 TODO
 
 \section{Attack Overview}
-There are 4 main steps to executing the attack:
+Based on prior research, the theoretical attack would take 4 main steps to executing the attack, which are as follow:
 \begin{enumerate}
 \item Find Bluetooth Address of the keyboard
 \item Execute DoS attack against victim
 \item Pair with keyboard and victim
 \item Forward keystrokes to victim
 \end{enumerate}
-TODO 
+
+Each step is outlined in detail in the following subsections.
+
 \subsection{Finding the Keyboard Bluetooth Address}
-The work relies on the assumption that we can find the MAC address of the keyboard easily and quickly using a Bluetooth sniffer and packet capturing software such as Kismet[link]. Although it is possible to manually program a Bluetooth card, it is possible to obtain hardware that sniffs and integrates with Kismet. Project Ubertooth provides both hardware and a plugin for Kismet that allows you to promiscuously sniff Bluetooth packets and displays the MAC address from whatever device is sending out the packets. 
+The work relies on the assumption that we can find the Bluetooth address of the keyboard easily and quickly using a Bluetooth sniffer and packet capturing software such as Kismet\cite{kismet}. Although it is possible to manually program a Bluetooth card, it is possible to obtain hardware that sniffs and integrates with Kismet. Project Ubertooth provides both hardware and a plugin for Kismet that allows you to promiscuously sniff Bluetooth packets and displays the Bluetooth address from whatever device is sending out the packets. 
 
 Although we did not implement this approach, we believe that the keyboard's MAC address can be determined within seconds of sniffing, making this step very easy to execute. 
 \cite{hak5}

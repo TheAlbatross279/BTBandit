@@ -33,6 +33,8 @@ Despite the security improvements made to Bluetooth since its debut in the late 
 Many Bluetooth devices are marketed explicitly for mobile devices such as phones and tablets. 
 Attack against tablets not common
 
+threat for MITM attacks is high \cite{sandhya2012analysis}
+
 \section{Background}
 \subsection{Bluetooth}
 \subsection{Bluetooth Security}
@@ -54,17 +56,13 @@ Security Modes:
 \end{enumerate}
 
 \subsection{Secure Simple Pairing (SSP)}
-Secure Simple Pairing (SSP) was introduced in revision 2.1 and has remained largely unchanged in the subsequent versions, although some of the authentication protocols have changed \cite{barnickel2012implementing}. 
+Secure Simple Pairing (SSP) was introduced in revision 2.1 and has remained largely unchanged in the subsequent versions, although some of the authentication protocols have changed \cite{barnickel2012implementing}. The original purpose of SSP was to simplify the pairing process for the end-user and to improve security, especially against MITM attacks \cite{sandhya2012analysis}. In order to simplify the process, 4 different association modes were created, and are used depending on the capabilities of the devices. The 4 association models are as follows:
 
-SSP has 4 association models:
-
-\textbf{Numeric Comparison}: a 6 digit number is displayed on both devices and a user confirms that the numbers match\\
-\textbf{Passkey Entry}: designed when one device has input (keyboard) and the other mostly display; the device that has the display shows a 6 digit number, which the user types in on the input device.\\
-\textbf{Just Works}: one device has no input or display; the user must accept the connection without being able to visualize that the numbers are the same (more in nist)\\
-\textbf{Out of Band (OOB)}: designed to connect when two devices are touched together, (e.g. Near Field Communication or NFC)\\
-
-TODO 5 steps of pairing protocol
-
+\textbf{Numeric Comparison}: a 6 digit number is displayed on both devices and a user confirms that the numbers match (this is designed for devices that both have display and input capabilities)\\\\
+\textbf{Passkey Entry}: designed when one device has input (keyboard) and the other mostly display; the device that has the display shows a 6 digit number, which the user types in on the input device.\\\\
+\textbf{Just Works}: one device has no input or display; the user must accept the connection without being able to visualize that the numbers are the same (more in nist)\\\\
+\textbf{Out of Band (OOB)}: designed to connect when two devices are touched together, (e.g. Near Field Communication or NFC)\\\\
+%TODO 5 steps of pairing protocol
 
 \subsection{MITM Bluetooth Attacks}
 We focus on man-in-the-middle attacks (MITM) against devices that use Passkey Entry as their primary mode of authentication for pairing. Historically, these attacks have been simple to implement and successful using a variety of approaches.  

@@ -103,6 +103,16 @@ ISSN={},}
   year={2008}
 }
 
+@inproceedings{sandhya2012analysis,
+  title={Analysis of Bluetooth threats and v4. 0 security features},
+  author={Sandhya, S and Devi, KAS},
+  booktitle={Computing, Communication and Applications (ICCCA), 2012 International Conference on},
+  pages={1--4},
+  year={2012},
+  organization={IEEE}
+}
+
+
 %Tools sources
 @ONLINE{hidclient,
 title ={hidclient, Virtual Bluetooth® keyboard and mouse},

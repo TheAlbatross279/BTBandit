@@ -50,19 +50,19 @@ Bluetooth is a short-range communications technology used in a wide variety of d
 \subsection{Bluetooth Security}
 Bluetooth implements a variety of security measures to protect itself. Unfortunatly, sometimes Bluetooth ends up defeating its own security measures. The following list are the major security features implemented currently.
 
-\textbf{Frequency hopping}: allows for fewer collisions between devices and makes sniffing traffic more difficult, but not impossible since it is known (--find out more about this)
+\textbf{Frequency hopping}: The Bluetooth protocol cycles through a wide range of frequencies to avoid conflicts and collisons with other Bluetooth devices \cite{ma2007keystroke}. This cycling make it harder to capture packets from a remote host without having special hardware to scan the entire frequency spectrum. Special hardware like the Ubertooth dongle can map out the full spectrum and remotely record packets.
 
-\textbf{Discoverable modes}: limits the vulnerability by limiting the amount of time a device is discoverable by other devices
+\textbf{Discoverable modes}: Devices that implement the Bluetooth standards can choose to only broadcast their availability for limited durations \cite{ma2007keystroke}. Having a hiden device can prevent against novice attackers from obtaining the Bluetooth address of the hidden device. This can be circumvented by performing a brute force attack on the address space and guessing the hidden devices Bluetooth address \cite{ma2007keystroke}.
 
-\textbf{PIN authentication}:
-no pin mode
+\textbf{PIN authentication}: To pair two Bluetooth devices together there are several authentication options. One of the most secure options is when a PIN is used on both devices to confirm who the other person is \cite{ma2007keystroke}. Sadly, there exists a mode where no-PIN is needed that can be defaulted to thereby removing any security protections. Also, even if a PIN is used it is only numeric characters which makes it much easier to crack \cite{ma2007keystroke}.
 
-\textbf{Security Modes}: 
+\textbf{Security Modes}: Bluetooth devices can be in a variety of different security modes with varying levels of security \cite{ma2007keystroke}. For backwards compatability reasons the lowest level of security can still be used.
+
 \begin{enumerate}
-\item Mode 1 no security or encryption
-\item Mode 2 no security until channel is established on L2CAP level (software)
-\item Mode 3 has security before link setup on the LMP level (hardware)
-\item Mode 4 introduced SSP
+\item Mode 1: no security or encryption
+\item Mode 2: no security until channel is established on L2CAP level (software)
+\item Mode 3: has security before link setup on the LMP level (hardware)
+\item Mode 4: introduced Secure Simple Pairing, pairing protocol to protect devices while a pairing is completed
 \end{enumerate}
 
 \subsection{Secure Simple Pairing (SSP)}

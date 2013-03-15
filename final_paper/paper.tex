@@ -137,7 +137,13 @@ The second step is to change the BlueZ configuration file to mimic the appearanc
 At this point, the attacker relies on the victim thinking the attacker's "keyboard" is his or her own device (since the victim may not see the actual keyboard in the device manager any longer). The victim, thinking the keyboard is familiar, initiates a pair request to the attacker's PC. Typically, the victim PC will now prompt for a pin from the attacker, but since the user thinks the victim PC is connecting to the victim keyboard, the user enters the pin on the Bluetooth keyboard, which is then forwarded from the attacker to the victim PC, completing the pairing process. 
 
 \subsection{Forwarding}
-hidclient \cite{hidclient}
+Although the attacker has now positioned him or herself between the keyboard and the victim PC, the attacker must effectively forward the keystrokes coming from the keyboard to the victim PC, otherwise the jig will be up.   
+Theoretically, it's possible to capture the Bluetooth packets from the keyboard, alter the source address to be the attacker's PC Bluetooth address and then forward the packets using C. However, we were unable to parse the Bluetooth packets because of the implementation differences in libpcap between Bluetooth and Ethernet traffic. 
+
+We were able to find a work-around considering that our attacker PC is simply emulating a keyboard; therefore, we looked for HID clients that mimic keyboards and use Bluetooth. We found an Linux tool called hidclient \cite{hidclient} which can essentially forward from any input device on the attacker PC. 
+
+Hidclient allows the user to forward from any input device the user specifies and that the computer recognizes as a valid input. Since the victim's Bluetooth keyboard is connected to the attacker already, hidclient recognizes the keyboard as an input source. This means the attacker's keyboard is free for typing and will not appear on the victim's screen. The keystrokes are forwarded on to the victim with minimal delay. 
+
 \subsection{Keylogging}
 We used python script based on findings of \cite{chopper}
 

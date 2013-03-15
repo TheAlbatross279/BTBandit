@@ -182,15 +182,20 @@ We are proposing three countermeasures to prevent against Man in the Middle atta
 
 \begin{enumerate}
 \item Stay out of discoverable mode as much as possible. This way any attacker would need special hardware to perform any kind of fancy attack and take much longer to actually find the keyboards Bluetooth address.
-\item Keyboards should require 
-\item Pair with keyboard and victim
+\item Keyboards should require a PIN to pair every time. Keyboards potentionally handle much more sensitive data than a device such as a Bluetooth receiver.
+\item Bluetooth manager applications should be smarter. If they notice a previously paired keyboard or device with the same name that has a different Bluetooth address that might warrant a red flag to be displayed to the user.
 \end{enumerate}
 
-No disco mode
-Keyboards should force pins to be used, more sensitive than keyboards
-Bluetooth managers should be smarter
-
 \section{Future Work}
+There are several obvious ways to continue the work we completed. 
+
+\begin{enumerate}
+\item Implement the entire attack. Including the denial-of-service and pairing without the users knowledge.
+\item Get Ubertooth and succesfully use it to choose victims without having to have prior knowledge about the victim and the keyboard.
+\item Implement the entire attack in a single C/C++ application. This would make testing and debugging much easier to perform. Instead of requiring several seperate tools combined together.
+\item Acquire passwords!
+\end{enumerate}
+
 
 \section{Conclusions}
 

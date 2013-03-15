@@ -132,11 +132,9 @@ What makes this attack possible is the unreliability of Bluetooth connections. U
 
 The first step is to pair with the victim keyboard and connect in unencrypted mode, or security Mode 1. This means all data coming from the keyboard will not be encrypted and can be easily dumped and extracted later. If the attacker is successful in pairing with the keyboard and connecting in unencrypted mode, the keyboard is no longer discoverable, which means it will not show up as "available" on the victim PC's Bluetooth device manager. 
 
-The second step is to change the BlueZ configuration file to mimic the appearance of the user's keyboard. 
+The second step is to change the BlueZ configuration file to mimic the appearance of the user's keyboard. When the keyboard becomes discoverable \texttt{hcitool scan} can give you the name of the device, which the attacker simply change in the Bluetooth config file (found in \texttt{/etc/bluetooth/main.conf} for Ubunutu 12.04). The attacker must also change the device class so that the device will show up as a keyboard in the device manager of the victim PC. Typically this device id is \texttt{0x000540} for keyboards. 
 
-connect to keyboard in unencrypted mode
-change Bluetooth address of Bluetooth card to look like keyboard 
-user will enter pin as prompted
+At this point, the attacker relies on the victim thinking the attacker's "keyboard" is his or her own device (since the victim may not see the actual keyboard in the device manager any longer). The victim, thinking the keyboard is familiar, initiates a pair request to the attacker's PC. Typically, the victim PC will now prompt for a pin from the attacker, but since the user thinks the victim PC is connecting to the victim keyboard, the user enters the pin on the Bluetooth keyboard, which is then forwarded from the attacker to the victim PC, completing the pairing process. 
 
 \subsection{Forwarding}
 hidclient \cite{hidclient}

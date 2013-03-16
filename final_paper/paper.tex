@@ -19,25 +19,15 @@
 Despite the security improvements made to Bluetooth since its debut in the late 1990s, Bluetooth technology still has many unresolved vulnerabilities that allow for attackers to execute successful Man in the Middle attacks. In particular, the addition of Secure Simple Pairing (SSP) in version 2.1 in 2007 introduced more security flaws, despite it's purpose to secure the pairing process between devices. This work focuses on launching a successful MiTM attack against a Bluetooth-enabled keyboard and a victim PC and logging the data transmitted from the keyboard to the victim PC. Although there is much work done on MiTM attacks and attacking PIN vulnerabilities, there has been little published research on successfully logging the keystrokes from a Bluetooth keyboard using a MiTM attack. 
 \end{abstract}
 
-
-\category{H.4}{Bluetooth Attacks}{Miscellaneous}
-%A category including the fourth, optional field follows...
-\category{D.2.8}{Software Engineering}{Metrics}[complexity measures, performance measures]
-\terms{Theory}
+\category{H.4}{Bluetooth Attacks}{Security}
+\terms{MITM Attack, Bluetooth Security}
 
 \keywords{MiTM, Bluetooth Attack, Keylogging} % NOT required for Proceedings
 
 \section{Introduction}
-Many Bluetooth devices are marketed explicitly for mobile devices such as phones and tablets. 
-Attack against tablets not common
+Bluetooth technology has proven to be vulnerable since it's adoption in to mainstream devices \cite{scarfone2008guide}, and while the security continues to improve, the threat for Man in the Middle (MITM) attacks against two paired Bluetooth devices remains high \cite{sandhya2012analysis}. In particular, MITM attacks take advantage of the Secure Simple Pairing (SSP) security protocol that was implemented in v2.1 in 2007, which was designed to enhance the security of Bluetooth devices and to simplify the pairing process for end-users. However, our work, and much of the previous work that focused on SSP MITM attacks, strives to show that there are still inherent security flaws in the implementation of the Bluetooth protocol. 
 
-threat for MITM attacks is high \cite{sandhya2012analysis}
-
-
-Many Bluetooth devices are marketed explicitly for mobile devices such as phones and tablets. 
-Attack against tablets not common
-
-Public key management is a problem \cite{almonanimitmssp}
+Several researchers have focused on what to do with a MITM Bluetooth attacka, particularly when dealing with input devices such as Bluetooth mice \cite{btmice} and Bluetooth keyboards \cite{cuthbertbluetooth,ma2007keystroke}. However, no work has successfully implemented a Bluetooth keylogger that takes advantage of a MITM attack and that does not require physical access to the victim's devices. Our work creates a proof of concept for a Bluetooth keylogger that can be executed using off-the-shelf hardware. 
 
 The rest of the paper is structured as follows. First, we discuss the background of Bluetooth. Then we move on to show the related work in the field we found. Next we present our threat model. We then move into discussing the attack and how each piece fits together. Then we discuss how we executed the attack and what we used to implement it. We then present our results and some ideas for how to mitigate any Man in the Middle attacks on Bluetooth keyboards. Lastly, we discuss future work and our conclusions.
 
@@ -57,7 +47,6 @@ Bluetooth implements a variety of security measures to protect itself. Unfortuna
 \textbf{PIN authentication}: To pair two Bluetooth devices together there are several authentication options. One of the most secure options is when a PIN is used on both devices to confirm who the other person is \cite{ma2007keystroke}. Sadly, there exists a mode where no-PIN is needed that can be defaulted to thereby removing any security protections. Also, even if a PIN is used it is only numeric characters which makes it much easier to crack \cite{ma2007keystroke}.
 
 \textbf{Security Modes}: Bluetooth devices can be in a variety of different security modes with varying levels of security \cite{ma2007keystroke}. For backwards compatibility reasons the lowest level of security can still be used.
-
 \begin{enumerate}
 \item Mode 1: no security or encryption
 \item Mode 2: no security until channel is established on L2CAP level (software)
@@ -72,7 +61,7 @@ Secure Simple Pairing (SSP) was introduced in revision 2.1 and has remained larg
 \textbf{Passkey Entry}: designed when one device has input (keyboard) and the other mostly display; the device that has the display shows a 6 digit number, which the user types in on the input device.\\\\
 \textbf{Just Works}: one device has no input or display; the user must accept the connection without being able to visualize that the numbers are the same (more in nist)\\\\
 \textbf{Out of Band (OOB)}: designed to connect when two devices are touched together, (e.g. Near Field Communication or NFC)\\\\
-%TODO 5 steps of pairing protocol
+
 \subsection{MITM Bluetooth Attacks}
 We focus on man-in-the-middle attacks (MITM) against devices that use Passkey Entry as their primary mode of authentication for pairing. Historically, these attacks have been simple to implement and successful using a variety of approaches.  
 
@@ -214,7 +203,7 @@ To extract the data, we wrote a Python script based on findings of a Chinese blo
 \section{Executing the Attack}
 To execute this attack, we used completely off-the-shelf hardware and software. The only custom software and hardware would be the incorporation of the Ubertooth device and plugin for Kismet. 
 
-\subsection{Hardware and Software}
+\subsection{Hardware}
 For this attack, we wanted to test several versions of Bluetooth as well as different Operating Systems to determine how effective the attack is against different hardware and software. The following are the devices we used for the attack:
 
 \textbf{Keyboard:} we used a basic Bluetooth keyboard that uses Bluetooth V3.0+EDR (Enhanced Data Rate (EDR), an optional speed-up of data transfer)\\
@@ -229,36 +218,43 @@ ACL data: handle 11 flags 0x02 dlen 14
 L2CAP(d): cid 0x0041 len 10 [psm 0]
 A1 01 00 00 04 00 00 00 00 00
 \end{verbatim}
-\caption{Sample \texttt{hcidump} dump data showing capital A}
+\caption{Sample \texttt{hcidump} dump data (0x04) showing capital A}
 \label{fig:mypic}
 \end{figure}
 
 \subsection{Setup}
-Need a Linux laptop
+Our attack setup used two laptops mentioned in the Hardware section and the Linux Command line utilities mentioned in the previous section. We used the Lenovo laptop as the attacker PC and the Macbook Air as the victim. Since the attack is OS ambivalent, the attack could theoretically be executed on a variety of Bluetooth enabled devices. However, given out limited resources, we were only able to attack the Macbook Air and another Desktop running Ubuntu 12.04 successfully.
 
 \subsection{Implementation}
-Note about pairing before hand
-\begin{verbatim}
-sudo hidd --connect <keyboard-address>
-\end{verbatim}
+Our worked under the assumption that the pairing process was performed successfully (as prior work suggests is possible) and the attacker is ready to connect and log the keystroke data. To being the keylogging attack, the attacker first scans for the Bluetooth address of both the victim PC and the keyboard by using \texttt{hcitool scan}. Once both the address are located, the attacker pairs with both and connects to the devices to begin data transfer.
 
-\begin{verbatim}
-sudo hcidump -x > log.out
-\end{verbatim}
+To connect to the keyboard in unencrypted mode, the attacker uses the following command, where the <keyboard-address> is the Bluetooth address of the victim keyboard:
 
-\begin{verbatim}
-sudo ./hidclient -e8 -x
-\end{verbatim}
+\texttt{sudo hidd --connect <keyboard-address>}
 
-Connect on the victim pc.
-Run the python script.
+Once the attacker has connected to the keyboard, he or she must run the \texttt{hcidump} in another shell and dumps the output into a log file, using the following command:
+
+\texttt{sudo hcidump -x > <log-file>}
+
+The \texttt{-x} option dumps the data in hexidecimal encoding, which is easily extracted later. 
+
+The attacker then runs the \texttt{hidclient} with the \texttt{-l} option, which lists the available inputs that can be forwarded to the victim PC. 
+
+\texttt{sudo hidclient -l}
+
+The Bluetooth keyboard appears as one of the options, and the attacker must simply replace the X in the following command to specify the input source as the keyboard. 
+
+\texttt{sudo ./hidclient -eX -x}
+
+At this point, the victim connects to the attacker as keyboard input, completing the connection. The \texttt{hidclient} forwards the data from the keyboard which is being logged by the \texttt{hcidump} on the attacker's machine. As mentioned before, this attack relies on the victim being tricked into pairing and connecting to the attacker's PC. For the purposes of this attack, we connected from the victim's PC using the \texttt{hidd} command in Linux. In a real-world attack, the victim should be able to connect to the attacker "keyboard" using the OS's built-in device manager. 
+
+The attack continues until the attacker or victim severs the connection, at which point the attacker runs a simple script to extract the data. We used a simple Python script to decode the output with excellent success.
 
 \section{Results}
 We successfully created a proof of concept implementation that can forward keystrokes from a Bluetooth keyboard through the attacker to a victim machine. The proof of concept currently only works in the ideal conditions.
 
 \section{Mitigation}
 We are proposing three countermeasures to prevent against Man in the Middle attacks on Bluetooth keyboards.
-
 \begin{enumerate}
 \item Stay out of discoverable mode as much as possible. This way any attacker would need special hardware to perform any kind of fancy attack and take much longer to actually find the keyboards Bluetooth address.
 \item Keyboards should require a PIN to pair every time. Keyboards potentially handle much more sensitive data than a device such as a Bluetooth receiver.
@@ -267,14 +263,12 @@ We are proposing three countermeasures to prevent against Man in the Middle atta
 
 \section{Future Work}
 There are several obvious ways to continue the work we completed. 
-
 \begin{enumerate}
 \item Implement the entire attack. Including the denial-of-service and pairing without the users knowledge.
 \item Get Ubertooth and successfully use it to choose victims without having to have prior knowledge about the victim and the keyboard.
 \item Implement the entire attack in a single C/C++ application. This would make testing and debugging much easier to perform. Instead of requiring several separate tools combined together.
 \item Acquire passwords!
 \end{enumerate}
-
 
 \section{Conclusions}
 Our work shows that a Bluetooth keylogger is possible to do. We successfully forwarded packets from the keyboard to the victim with no delay. Accomplishing this task was easier said than done. We had to use several software packages in the correct order to get the behaviors we wanted. The main conclusion we came away with is that Bluetooth is needlessly complex. The API is horrible and underdeveloped. Which was not explained by any documentation we found. The documentation was useless and led us in the wrong direction 99\% of the time. If anyone could improve Bluetooth in any way we recommend making the API cleaner and standardized and improving the documentation that goes with it.

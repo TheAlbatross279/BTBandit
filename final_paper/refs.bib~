@@ -166,3 +166,9 @@ year ={2013},
 url ={http://www.wireshark.org/}
 }
 
+@ONLINE{btmice,
+title = {Bluetooth Mice Can Leak Your Passwords!},
+year ={2013},
+url={http://linux.devicegadget.com/attack/bluetooth-mice-leak-passwords/63/}
+}
+
